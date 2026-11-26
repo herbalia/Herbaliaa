@@ -30,7 +30,7 @@ function openCart(){ $("cartDrawer").classList.add("open");$("drawerBackdrop").c
 function closeCart(){ $("cartDrawer").classList.remove("open");$("drawerBackdrop").classList.remove("show");}
 $("cartOpen").onclick=openCart;$("cartClose").onclick=closeCart;$("drawerBackdrop").onclick=closeCart;
 $("categoryFilters").addEventListener("click",e=>{let b=e.target.closest("[data-category]");if(!b)return;activeCategory=b.dataset.category;document.querySelectorAll(".filter").forEach(x=>x.classList.toggle("active",x===b));renderProducts();});
-$("checkoutBtn").onclick=()=>{
+$("checkoutBtn").onclick=()=>{console.log("CHECKOUT CLICKED");
   if(!cart.length){
     toast("سبد خرید خالی است");
     return;
