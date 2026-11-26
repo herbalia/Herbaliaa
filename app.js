@@ -76,6 +76,8 @@ function renderAdmin(){
  });
 }
 $("productForm").onsubmit=async e=>{
+ const {data:{user}} = await sb.auth.getUser();
+console.log("CURRENT SUPABASE USER:", user?.id, user?.email);
  e.preventDefault();
  const id=$("editId").value;let image=$("pImage").value.trim();
  const f=$("pFile").files[0];
