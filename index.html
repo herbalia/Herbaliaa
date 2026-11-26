@@ -5,346 +5,456 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#17291f">
-  <title>هربالیا | گیاهان دارویی، محصولات طبیعی و سبک زندگی سالم</title>
-  <meta name="description" content="هربالیا؛ مرجعی برای آشنایی با گیاهان دارویی، فرآورده‌های طبیعی، محصولات مراقبتی و سبک زندگی سالم با رویکردی علمی و آگاهانه.">
-  <meta name="robots" content="index, follow">
-  <meta name="language" content="Persian">
-  <meta name="author" content="Herbalia">
+
+  <title>هربالیا | دانش طبیعت، تعادل زندگی</title>
+  <meta name="description" content="هربالیا؛ پیوند دانش گیاهان دارویی، طب تلفیقی و سبک زندگی سالم. آشنایی با محصولات طبیعی و دریافت مشاوره.">
+
   <link rel="canonical" href="https://herbalia.github.io/Herbaliaa/">
+  <meta property="og:title" content="هربالیا | دانش طبیعت، تعادل زندگی">
+  <meta property="og:description" content="نگاهی علمی و نو به طبیعت، تندرستی و سبک زندگی سالم">
   <meta property="og:type" content="website">
-  <meta property="og:locale" content="fa_IR">
-  <meta property="og:site_name" content="هربالیا">
-  <meta property="og:title" content="هربالیا | طبیعت، علم و تندرستی">
-  <meta property="og:description" content="آشنایی با گیاهان دارویی، فرآورده‌های طبیعی و سبک زندگی سالم در هربالیا.">
   <meta property="og:url" content="https://herbalia.github.io/Herbaliaa/">
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="هربالیا | طبیعت، علم و تندرستی">
-  <meta name="twitter:description" content="پیوند دانش گیاهان دارویی، طبیعت و سبک زندگی سالم.">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Estedad:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "هربالیا",
-    "alternateName": "Herbalia",
+    "name": "Herbalia",
     "url": "https://herbalia.github.io/Herbaliaa/",
-    "description": "هربالیا؛ پیوند دانش گیاهان دارویی، طبیعت و سبک زندگی سالم.",
-    "sameAs": [
-      "https://www.instagram.com/herbalia_organic/",
-      "https://ble.ir/herbalia_organic",
-      "https://rubika.ir/Herbalia_organic"
-    ]
+    "description": "پیوند دانش طبیعت و سبک زندگی سالم"
   }
   </script>
-</head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#17291f">
-  <meta name="description" content="هربالیا؛ پیوند دانش گیاهان دارویی، طبیعت و سبک زندگی سالم.">
-  <title>هربالیا | طبیعت، علم و تندرستی</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Estedad:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
 
-  <div class="ambient ambient-one"></div>
-  <div class="ambient ambient-two"></div>
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-inner">
 
-  <header class="site-header">
-    <a class="brand" href="#home" aria-label="هربالیا">
-      <span class="brand-mark">ه</span>
-      <span>
-        <b>هربالیا</b>
-        <small>HERBALIA · BOTANICAL WELLNESS</small>
-      </span>
+    <a href="#home" class="brand" aria-label="Herbalia">
+      <span class="brand-mark" id="brandLogo">ه</span>
+      <span>HERBALIA</span>
     </a>
 
-    <nav class="main-nav">
+    <nav class="main-nav" id="mainNav">
       <a href="#home">خانه</a>
-      <a href="#shop">فروشگاه</a>
-      <a href="#approach">رویکرد ما</a>
-      <a href="#journal">دانشنامه</a>
-      <a href="#contact">ارتباط</a>
+      <a href="#shop">محصولات</a>
+      <a href="#approach">درباره هربالیا</a>
+      <a href="#consult">مشاوره</a>
+      <a href="#journal">مجله</a>
+      <a href="#contact">ارتباط با ما</a>
     </nav>
 
     <div class="header-actions">
-      <button class="icon-btn" id="adminOpen" title="پنل مدیریت" aria-label="پنل مدیریت">⌘</button>
-      <button class="cart-trigger" id="cartOpen">
-        <span>سبد خرید</span>
-        <span class="cart-count" id="cartCount">0</span>
+      <button class="icon-btn" id="adminOpen" aria-label="پنل مدیریت" title="مدیریت">⌘</button>
+      <button class="icon-btn" id="cartOpen" aria-label="سبد خرید" title="سبد خرید">
+        ♧ <span id="cartCount">0</span>
       </button>
-      <button class="menu-toggle" id="menuToggle" aria-label="باز کردن منو">☰</button>
+      <button class="icon-btn" id="menuToggle" aria-label="منو">☰</button>
     </div>
-  </header>
 
-  <main>
+  </div>
+</header>
 
-    <section class="hero" id="home">
-      <div class="hero-copy">
-        <div class="eyebrow"><i></i> BOTANICAL KNOWLEDGE · MODERN WELLNESS</div>
-        <h1>طبیعت، علم و<br><em>تندرستی؛</em> در تعادل</h1>
-        <p>در هربالیا، دانش گیاهان دارویی را با نگاهی نو به سلامت، مراقبت و سبک زندگی پیوند می‌دهیم.</p>
 
-        <div class="hero-actions">
-          <a class="btn btn-light" href="#shop">کشف محصولات <span>←</span></a>
-          <a class="text-link" href="#approach">داستان هربالیا <span>↗</span></a>
+<!-- HERO -->
+<main>
+
+<section class="hero" id="home">
+
+  <div class="hero-copy">
+
+    <span class="eyebrow">THE ART OF NATURAL WELLNESS</span>
+
+    <h1>
+      بازگشت به
+      <span>تعادل طبیعی</span>
+      زندگی
+    </h1>
+
+    <p>
+      در هربالیا، طبیعت را با نگاهی علمی و نو تجربه می‌کنیم؛
+      پیوندی میان دانش گیاهان، تندرستی و سبک زندگی آگاهانه.
+    </p>
+
+    <div class="hero-buttons">
+      <a href="#shop" class="btn btn-primary">
+        کشف محصولات
+        <span>←</span>
+      </a>
+
+      <a href="#approach" class="btn btn-outline">
+        داستان هربالیا
+      </a>
+    </div>
+
+  </div>
+
+
+  <!-- THREE DIMENSIONAL BOTANICAL ART -->
+  <div class="hero-art" id="heroArt" aria-hidden="true">
+
+    <div class="orbit"></div>
+
+    <div class="glass-orb" id="heroOrb">
+      <div class="orb-shine"></div>
+
+      <div class="stem"></div>
+      <div class="leaf leaf-one"></div>
+      <div class="leaf leaf-two"></div>
+      <div class="leaf leaf-three"></div>
+    </div>
+
+    <div class="floating-leaf"></div>
+    <div class="floating-leaf"></div>
+    <div class="floating-leaf"></div>
+
+    <div class="hero-caption">NATURE · SCIENCE · BALANCE</div>
+
+    <div class="hero-stamp">
+      ROOTED IN NATURE
+      <br>
+      GUIDED BY SCIENCE
+    </div>
+
+  </div>
+
+  <div class="scroll-cue">SCROLL TO DISCOVER ↓</div>
+
+</section>
+
+
+<!-- BRAND STRIP -->
+<section class="brand-strip">
+  <div class="container brand-strip-inner">
+    <span>BOTANICAL KNOWLEDGE</span>
+    <span>●</span>
+    <span>INTEGRATIVE WELLNESS</span>
+    <span>●</span>
+    <span>MINDFUL LIVING</span>
+    <span>●</span>
+    <span>NATURAL BALANCE</span>
+  </div>
+</section>
+
+
+<!-- SHOP -->
+<section class="section shop-section" id="shop">
+  <div class="container">
+
+    <div class="section-heading">
+      <span class="eyebrow">THE HERBALIA COLLECTION</span>
+      <h2>انتخابی از دل طبیعت</h2>
+      <p>
+        مجموعه‌ای از فرآورده‌های طبیعی برای آشنایی بیشتر با ظرفیت‌های گیاهان و مراقبت آگاهانه از خود.
+      </p>
+    </div>
+
+    <div class="category-filters" id="categoryFilters">
+      <button class="category-filter active" data-category="all">همه محصولات</button>
+    </div>
+
+    <div class="product-grid" id="productGrid">
+      <!-- Products are rendered by app.js -->
+    </div>
+
+  </div>
+</section>
+
+
+<!-- APPROACH -->
+<section class="section manifesto" id="approach">
+  <div class="container manifesto-content">
+
+    <div class="manifesto-copy">
+      <span class="eyebrow">OUR PHILOSOPHY</span>
+
+      <h2>
+        طبیعت، فراتر از یک انتخاب؛
+        نگاهی تازه به تندرستی
+      </h2>
+
+      <p>
+        هربالیا با رویکردی مبتنی بر دانش و آگاهی، تلاش می‌کند
+        میان ظرفیت‌های طبیعت، دانش روز و سبک زندگی سالم ارتباط برقرار کند.
+      </p>
+
+      <p>
+        باور داریم شناخت بهتر بدن، تغذیه آگاهانه و توجه به تعادل
+        زندگی می‌توانند بخشی از مسیر مراقبت از سلامت باشند.
+      </p>
+
+      <a href="#consult" class="btn btn-primary">
+        آشنایی با رویکرد ما
+        <span>←</span>
+      </a>
+    </div>
+
+    <div class="manifesto-visual">
+      <div class="manifesto-orb"></div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- CONSULTATION -->
+<section class="section consult-section" id="consult">
+  <div class="container">
+
+    <div class="consult-inner">
+      <span class="eyebrow">PERSONAL CONSULTATION</span>
+
+      <h2>
+        مسیر تندرستی،
+        از شناخت بهتر خود آغاز می‌شود.
+      </h2>
+
+      <p>
+        برای دریافت فرم پذیرش و ثبت نوبت مشاوره،
+        از طریق فرم اختصاصی هربالیا اقدام کنید.
+      </p>
+
+      <a
+        href="https://forms.gle/oJ1emhbo2GiybRKB9"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn btn-primary"
+      >
+        دریافت فرم پذیرش
+        <span>←</span>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- JOURNAL -->
+<section class="section journal-section" id="journal">
+  <div class="container">
+
+    <div class="section-heading">
+      <span class="eyebrow">THE HERBALIA JOURNAL</span>
+      <h2>دانش، طبیعت و زندگی</h2>
+      <p>
+        مطالبی برای شناخت بهتر بدن، گیاهان و ارتباط سبک زندگی با تندرستی.
+      </p>
+    </div>
+
+    <div class="journal-grid">
+
+      <article class="journal-card">
+        <div class="journal-image">✧</div>
+        <div class="journal-content">
+          <h3>محور روده و مغز؛ ارتباطی فراتر از تصور</h3>
+          <p>نگاهی به ارتباط پیچیده دستگاه گوارش و سیستم عصبی.</p>
+          <a href="https://herbalia.github.io/Herbalia/" target="_blank" rel="noopener noreferrer">
+            مطالعه مقاله ←
+          </a>
         </div>
+      </article>
 
-        <div class="hero-note">
-          <span class="note-line"></span>
-          <span>رویکردی آگاهانه به دنیای طبیعت</span>
+      <article class="journal-card">
+        <div class="journal-image">❋</div>
+        <div class="journal-content">
+          <h3>گیاهان دارویی و دانش امروز</h3>
+          <p>نگاهی علمی به ترکیبات طبیعی و ظرفیت‌های گیاهان.</p>
+          <a href="https://herbalia.github.io/Herbalia/" target="_blank" rel="noopener noreferrer">
+            مطالعه مقاله ←
+          </a>
         </div>
-      </div>
+      </article>
 
-      <div class="hero-art" aria-label="تصویر هنری گیاهان">
-        <div class="orbit orbit-a"></div>
-        <div class="orbit orbit-b"></div>
-        <div class="glass-orb">
-          <div class="orb-shine"></div>
-          <div class="leaf leaf-one"></div>
-          <div class="leaf leaf-two"></div>
-          <div class="leaf leaf-three"></div>
-          <div class="stem"></div>
+      <article class="journal-card">
+        <div class="journal-image">◌</div>
+        <div class="journal-content">
+          <h3>سبک زندگی و تعادل بدن</h3>
+          <p>نقش خواب، تغذیه و فعالیت بدنی در سلامت عمومی.</p>
+          <a href="https://herbalia.github.io/Herbalia/" target="_blank" rel="noopener noreferrer">
+            مطالعه مقاله ←
+          </a>
         </div>
-        <div class="floating-leaf leaf-four"></div>
-        <div class="floating-leaf leaf-five"></div>
-        <div class="hero-caption">
-          <span>01 / 04</span>
-          <span>THE BOTANICAL EDIT</span>
-        </div>
-        <div class="hero-stamp">PURE<br><b>BOTANICAL</b><br>ESSENCE</div>
-      </div>
+      </article>
 
-      <div class="scroll-cue"><span></span> اسکرول کنید</div>
-    </section>
+    </div>
 
-    <section class="trust-strip">
-      <div><b>01</b><span>نگاه علمی و آگاهانه</span></div>
-      <div><b>02</b><span>انتخاب‌های الهام‌گرفته از طبیعت</span></div>
-      <div><b>03</b><span>سبک زندگی متعادل</span></div>
-    </section>
+  </div>
+</section>
 
-    <section class="section shop-section" id="shop">
-      <div class="section-heading">
-        <div>
-          <div class="eyebrow dark"><i></i> THE HERBALIA STORE</div>
-          <h2>انتخابی از دل <em>طبیعت</em></h2>
-          <p>محصولات هربالیا را ببینید و با جزئیات هر محصول آشنا شوید.</p>
-        </div>
-        <a href="#shop" class="text-link dark-link">همه محصولات <span>←</span></a>
-      </div>
+</main>
 
-      <div class="category-row" id="categoryFilters">
-        <button class="filter active" data-category="همه">همه</button>
-        <button class="filter" data-category="روغن‌های گیاهی">روغن‌های گیاهی</button>
-        <button class="filter" data-category="گیاهان و فرآورده‌ها">گیاهان و فرآورده‌ها</button>
-        <button class="filter" data-category="مراقبت و سلامت">مراقبت و سلامت</button>
-      </div>
 
-      <div class="product-grid" id="productGrid"></div>
-    </section>
+<!-- FOOTER -->
+<footer class="site-footer" id="contact">
+  <div class="container">
 
-    <section class="manifesto" id="approach">
-      <div class="manifesto-visual">
-        <div class="manifesto-disc">
-          <span>H</span>
-          <i></i>
-          <b>HERBALIA</b>
-        </div>
-        <div class="manifesto-small">NATURE / KNOWLEDGE / BALANCE</div>
-      </div>
+    <div class="footer-grid">
 
-      <div class="manifesto-copy">
-        <div class="eyebrow"><i></i> OUR PHILOSOPHY</div>
-        <h2>بازگشت به طبیعت،<br><em>با نگاهی علمی</em></h2>
-        <p>هربالیا فضایی برای آشنایی آگاهانه با گیاهان، فرآورده‌های طبیعی و عادت‌های سالم است. ما به پیوند تجربه‌های ارزشمند طبیعت با دانش روز و انتخاب مسئولانه باور داریم.</p>
-        <a class="btn btn-outline" href="#contact">بیشتر درباره هربالیا <span>←</span></a>
-      </div>
-    </section>
-
-    <section class="consult-section">
-      <div class="consult-card">
-        <div class="eyebrow"><i></i> PERSONAL CONSULTATION</div>
-        <h2>سلامت، فراتر از<br><em>درمان یک علامت</em></h2>
-        <p>برای دریافت فرم پذیرش و ثبت درخواست ویزیت، از مسیر زیر اقدام کنید.</p>
-        <a class="btn btn-light" href="https://forms.gle/oJ1emhbo2GiybRKB9" target="_blank" rel="noopener">دریافت فرم ویزیت <span>↗</span></a>
-        <small>محتوای سایت جایگزین تشخیص یا توصیه پزشکی فردی نیست.</small>
-      </div>
-
-      <div class="consult-plant">
-        <div class="plant-stem"></div>
-        <i class="p-leaf p1"></i>
-        <i class="p-leaf p2"></i>
-        <i class="p-leaf p3"></i>
-        <i class="p-leaf p4"></i>
-        <i class="p-leaf p5"></i>
-      </div>
-    </section>
-
-    <section class="section journal" id="journal">
-      <div class="section-heading">
-        <div>
-          <div class="eyebrow dark"><i></i> THE HERBALIA JOURNAL</div>
-          <h2>دانشنامه <em>هربالیا</em></h2>
-          <p>نگاهی دقیق‌تر به طبیعت، تغذیه و سبک زندگی.</p>
-        </div>
-        <a class="text-link dark-link" href="https://herbalia.github.io/Herbalia/" target="_blank" rel="noopener">مطالعه مقالات <span>↗</span></a>
-      </div>
-
-      <div class="journal-grid">
-        <a class="journal-card journal-large" href="https://herbalia.github.io/Herbalia/" target="_blank" rel="noopener">
-          <div class="journal-art art-one"><span>BOTANICAL<br>SCIENCE</span></div>
-          <div>
-            <small>گیاهان دارویی</small>
-            <h3>دانش گیاهان؛ از طبیعت تا انتخاب آگاهانه</h3>
-          </div>
+      <div class="footer-brand">
+        <a href="#home" class="brand">
+          <span class="brand-mark">ه</span>
+          <span>HERBALIA</span>
         </a>
 
-        <a class="journal-card" href="https://herbalia.github.io/Herbalia/" target="_blank" rel="noopener">
-          <div class="journal-art art-two"><span>WELLNESS<br>NOTES</span></div>
-          <div>
-            <small>سبک زندگی</small>
-            <h3>عادت‌های کوچک برای تعادل بیشتر</h3>
-          </div>
-        </a>
-
-        <a class="journal-card" href="https://herbalia.github.io/Herbalia/" target="_blank" rel="noopener">
-          <div class="journal-art art-three"><span>THE<br>MICROBIOME</span></div>
-          <div>
-            <small>سلامت گوارش</small>
-            <h3>آشنایی با دنیای میکروبیوم</h3>
-          </div>
-        </a>
+        <p>
+          هربالیا؛ پیوندی میان دانش طبیعت،
+          رویکرد علمی و سبک زندگی آگاهانه.
+        </p>
       </div>
-    </section>
 
-  </main>
-
-  <footer id="contact">
-    <div class="footer-top">
-      <div class="brand footer-brand">
-        <span class="brand-mark">ه</span>
-        <span>
-          <b>هربالیا</b>
-          <small>HERBALIA · BOTANICAL WELLNESS</small>
-        </span>
+      <div class="footer-column">
+        <h4>دسترسی سریع</h4>
+        <a href="#home">خانه</a>
+        <a href="#shop">محصولات</a>
+        <a href="#approach">درباره ما</a>
+        <a href="#journal">مجله هربالیا</a>
       </div>
-      <p>پیوند طبیعت، دانش و تندرستی.</p>
-      <a class="btn btn-light" href="https://ble.ir/herbalia_organic" target="_blank" rel="noopener">ارتباط با هربالیا <span>↗</span></a>
+
+      <div class="footer-column">
+        <h4>ارتباط با هربالیا</h4>
+        <a href="https://www.instagram.com/herbalia_organic/" target="_blank" rel="noopener noreferrer">اینستاگرام</a>
+        <a href="https://ble.ir/herbalia_organic" target="_blank" rel="noopener noreferrer">کانال بله</a>
+        <a href="https://rubika.ir/Herbalia_organic" target="_blank" rel="noopener noreferrer">روبیکا</a>
+        <a href="https://herbalia.github.io/Herbalia/" target="_blank" rel="noopener noreferrer">وبلاگ</a>
+      </div>
+
     </div>
 
     <div class="footer-bottom">
-      <span>© HERBALIA — تمامی حقوق محفوظ است.</span>
-      <div>
-        <a href="https://www.instagram.com/herbalia_organic/" target="_blank" rel="noopener">Instagram</a>
-        <a href="https://ble.ir/herbalia_organic" target="_blank" rel="noopener">Bale</a>
-        <a href="https://rubika.ir/Herbalia_organic" target="_blank" rel="noopener">Rubika</a>
-      </div>
+      <span>© HERBALIA — ALL RIGHTS RESERVED</span>
+      <span>ROOTED IN NATURE · GUIDED BY SCIENCE</span>
     </div>
-  </footer>
 
-  <div class="drawer-backdrop" id="drawerBackdrop"></div>
+  </div>
+</footer>
 
-  <aside class="cart-drawer" id="cartDrawer" aria-label="سبد خرید">
-    <div class="drawer-head">
-      <h3>سبد خرید شما</h3>
-      <button class="close-btn" id="cartClose">×</button>
-    </div>
-    <div id="cartItems" class="cart-items"></div>
-    <div class="cart-footer">
-      <div class="total-row">
-        <span>جمع کل</span>
-        <b id="cartTotal">۰ تومان</b>
-      </div>
-      <button class="btn btn-dark full" id="checkoutBtn">ثبت درخواست سفارش</button>
-      <small>ثبت سفارش در این نسخه آزمایشی از طریق پیام‌رسان انجام می‌شود.</small>
-    </div>
-  </aside>
 
-  <div class="modal-backdrop" id="adminBackdrop">
-    <section class="admin-modal">
-      <div class="drawer-head">
-        <div>
-          <small>HERBALIA CONTROL ROOM</small>
-          <h3>پنل مدیریت محصولات</h3>
-        </div>
-        <button class="close-btn" id="adminClose">×</button>
-      </div>
+<!-- CART BACKDROP -->
+<div class="drawer-backdrop" id="drawerBackdrop"></div>
 
-      <div class="admin-login" id="adminLogin">
-        <p>ورود مدیر فروشگاه</p>
-        <input id="adminEmail" type="email" placeholder="ایمیل مدیر" autocomplete="username">
-        <input id="adminPassword" type="password" placeholder="رمز مدیریت" autocomplete="current-password">
-        <button class="btn btn-dark" id="adminLoginBtn">ورود به پنل</button>
-      </div>
+<!-- CART DRAWER -->
+<aside class="cart-drawer" id="cartDrawer">
 
-      <div class="admin-content hidden" id="adminContent">
-        <div class="admin-toolbar">
-          <span>مدیریت کاتالوگ محصولات</span>
-          <button class="btn btn-dark" id="addProductBtn">+ محصول جدید</button>
-        </div>
-
-        <form id="productForm" class="product-form hidden">
-          <input type="hidden" id="editId">
-
-          <label>
-            نام محصول
-            <input id="pName" required placeholder="مثلاً روغن گیاهی">
-          </label>
-
-          <label>
-            دسته‌بندی
-            <select id="pCategory">
-              <option>روغن‌های گیاهی</option>
-              <option>گیاهان و فرآورده‌ها</option>
-              <option>مراقبت و سلامت</option>
-            </select>
-          </label>
-
-          <label>
-            قیمت (تومان)
-            <input id="pPrice" type="number" min="0" placeholder="مثلاً 444000">
-          </label>
-
-          <label>
-            عکس محصول
-            <input id="pFile" type="file" accept="image/*">
-          </label>
-
-          <input id="pImage" type="hidden">
-
-          <label>
-            توضیح کوتاه
-            <textarea id="pDescription" rows="2"></textarea>
-          </label>
-
-          <div class="form-actions">
-            <button class="btn btn-dark" type="submit">ذخیره محصول</button>
-            <button class="btn btn-outline-dark" type="button" id="cancelProduct">انصراف</button>
-          </div>
-        </form>
-
-        <div id="adminProducts" class="admin-products"></div>
-        <button class="export-btn" id="exportData">خروجی پشتیبان محصولات (JSON)</button>
-      </div>
-    </section>
+  <div class="drawer-header">
+    <h3>سبد خرید شما</h3>
+    <button class="drawer-close" id="cartClose" aria-label="بستن">×</button>
   </div>
 
-  <div class="toast" id="toast"></div>
+  <div class="cart-items" id="cartItems"></div>
 
-  <!-- Supabase و فایل‌های سایت؛ هرکدام فقط یک بار بارگذاری می‌شوند -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-  <script src="config.js"></script>
-  <script src="app.js"></script>
-  <script src="articles.js"></script>
+  <div class="cart-footer">
+    <div class="cart-total">
+      <span>مجموع سفارش</span>
+      <span id="cartTotal">۰ تومان</span>
+    </div>
+
+    <button class="checkout-btn" id="checkoutBtn">
+      ادامه و ثبت سفارش
+    </button>
+  </div>
+
+</aside>
+
+
+<!-- ADMIN BACKDROP -->
+<div class="admin-backdrop" id="adminBackdrop"></div>
+
+<!-- ADMIN MODAL -->
+<section class="admin-modal" id="adminModal">
+
+  <div class="admin-header">
+    <h2>مدیریت هربالیا</h2>
+    <button class="drawer-close" id="adminClose" aria-label="بستن">×</button>
+  </div>
+
+  <div id="adminLogin">
+
+    <form class="admin-form" id="adminLoginForm">
+
+      <label for="adminEmail">ایمیل مدیر</label>
+      <input
+        type="email"
+        id="adminEmail"
+        placeholder="ایمیل"
+        autocomplete="username"
+      >
+
+      <label for="adminPassword">رمز عبور</label>
+      <input
+        type="password"
+        id="adminPassword"
+        placeholder="رمز عبور"
+        autocomplete="current-password"
+      >
+
+      <button type="button" id="adminLoginBtn">
+        ورود به پنل مدیریت
+      </button>
+
+    </form>
+
+  </div>
+
+
+  <div id="adminContent" hidden>
+
+    <button class="btn btn-primary" id="addProductBtn">
+      افزودن محصول جدید
+    </button>
+
+    <form class="admin-form" id="productForm" hidden>
+
+      <input type="hidden" id="editId">
+
+      <label for="pName">نام محصول</label>
+      <input type="text" id="pName" required>
+
+      <label for="pCategory">دسته‌بندی</label>
+      <input type="text" id="pCategory" required>
+
+      <label for="pPrice">قیمت به تومان</label>
+      <input type="number" id="pPrice" min="0" required>
+
+      <label for="pFile">تصویر محصول</label>
+      <input type="file" id="pFile" accept="image/*">
+
+      <input type="hidden" id="pImage">
+
+      <label for="pDescription">توضیحات محصول</label>
+      <textarea id="pDescription" rows="4"></textarea>
+
+      <button type="submit">ذخیره محصول</button>
+      <button type="button" id="cancelProduct">انصراف</button>
+
+    </form>
+
+    <div class="admin-products" id="adminProducts"></div>
+
+    <button class="btn btn-outline" id="exportData" type="button">
+      خروجی اطلاعات محصولات
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- TOAST -->
+<div id="toast" role="status" aria-live="polite"></div>
+
+
+<!-- SCRIPTS -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="app.js"></script>
+<script src="articles.js"></script>
 
 </body>
 </html>
+
