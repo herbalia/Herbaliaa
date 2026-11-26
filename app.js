@@ -42,22 +42,34 @@ const DEFAULT_PRODUCTS = [
 
 const $ = id => document.getElementById(id);
 
-const money = n =>
-  n == null
+const money = n => {
+  const price = Number(n);
+
+  return n == null || !Number.isFinite(price)
     ? "استعلام قیمت"
-    : new Intl.NumberFormat("fa-IR").format(n) + " تومان";
+    : new Intl.NumberFormat("fa-IR").format(price) + " تومان";
+};
 
 let products = DEFAULT_PRODUCTS;
 let cart = [];
+let activeCategory = "همه";
 
 try {
-  cart = JSON.parse(localStorage.getItem("herbalia_cart") || "[]");
-  if (!Array.isArray(cart)) cart = [];
+  const storedCart = JSON.parse(
+    localStorage.getItem("herbalia_cart") || "[]"
+  );
+
+  if (Array.isArray(storedCart)) {
+    cart = storedCart
+      .filter(item => item && item.id != null)
+      .map(item => ({
+        id: String(item.id),
+        qty: Math.max(1, Number(item.qty) || 1)
+      }));
+  }
 } catch {
   cart = [];
 }
-
-let activeCategory = "همه";
 
 
 /* ---------- SUPABASE ---------- */
@@ -106,6 +118,24 @@ function save() {
   );
 }
 
+function getProduct(id) {
+  return products.find(
+    p => String(p.id) === String(id)
+  );
+}
+
+function getPrice(product) {
+  if (!product || product.price == null || product.price === "") {
+    return null;
+  }
+
+  const price = Number(product.price);
+
+  return Number.isFinite(price) && price >= 0
+    ? price
+    : null;
+}
+
 
 /* ---------- PRODUCTS ---------- */
 
@@ -116,7 +146,9 @@ function renderProducts() {
   const list =
     activeCategory === "همه"
       ? products
-      : products.filter(p => p.category === activeCategory);
+      : products.filter(
+          p => p.category === activeCategory
+        );
 
   grid.innerHTML = list.map(p => `
     <article class="product-card">
@@ -124,12 +156,13 @@ function renderProducts() {
       <div class="product-image">
         ${
           p.image
-            ? `<img src="${escapeHtml(p.image)}"
-                 alt="${escapeHtml(p.name)}"
-                 loading="lazy">`
+            ? `<img
+                src="${escapeHtml(p.image)}"
+                alt="${escapeHtml(p.name)}"
+                loading="lazy">`
             : `<div class="product-placeholder">
-                 ${escapeHtml(p.name)}
-               </div>`
+                ${escapeHtml(p.name)}
+              </div>`
         }
 
         <span class="product-tag">
@@ -139,21 +172,29 @@ function renderProducts() {
 
       <div class="product-info">
         <small>HERBALIA BOTANICAL SELECTION</small>
+
         <h3>${escapeHtml(p.name)}</h3>
 
         <div class="product-bottom">
-          <span class="price">${money(p.price)}</span>
+          <span class="price">
+            ${money(getPrice(p))}
+          </span>
 
-          <button class="add-btn" data-add="${escapeHtml(p.id)}">
+          <button
+            class="add-btn"
+            data-add="${escapeHtml(p.id)}">
             افزودن +
           </button>
         </div>
       </div>
+
     </article>
   `).join("") || "<p>محصولی در این دسته ثبت نشده است.</p>";
 
   grid.querySelectorAll("[data-add]").forEach(button => {
-    button.onclick = () => addToCart(button.dataset.add);
+    button.onclick = () => {
+      addToCart(button.dataset.add);
+    };
   });
 }
 
@@ -175,7 +216,23 @@ async function loadProducts() {
     return;
   }
 
-  products = data || [];
+  products = Array.isArray(data) ? data : [];
+
+  // حذف اقلام قدیمی که دیگر در دیتابیس وجود ندارند
+  const validIds = new Set(
+    products.map(p => String(p.id))
+  );
+
+  const oldLength = cart.length;
+
+  cart = cart.filter(item =>
+    validIds.has(String(item.id))
+  );
+
+  if (cart.length !== oldLength) {
+    save();
+    toast("سبد خرید قدیمی به‌روزرسانی شد");
+  }
 
   renderProducts();
   renderCart();
@@ -185,19 +242,29 @@ async function loadProducts() {
 /* ---------- CART ---------- */
 
 function addToCart(id) {
-  const product = products.find(p => String(p.id) === String(id));
-  if (!product) return;
+  const product = getProduct(id);
 
-  const item = cart.find(x => String(x.id) === String(id));
+  if (!product) {
+    toast("محصول پیدا نشد");
+    return;
+  }
+
+  const item = cart.find(
+    x => String(x.id) === String(product.id)
+  );
 
   if (item) {
     item.qty++;
   } else {
-    cart.push({ id: product.id, qty: 1 });
+    cart.push({
+      id: String(product.id),
+      qty: 1
+    });
   }
 
   save();
   renderCart();
+
   toast("به سبد خرید اضافه شد");
 }
 
@@ -206,60 +273,89 @@ function renderCart() {
   const items = $("cartItems");
   const totalEl = $("cartTotal");
 
-  const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
+  const totalCount = cart.reduce(
+    (sum, item) => sum + item.qty,
+    0
+  );
 
   if (count) {
-    count.textContent = new Intl.NumberFormat("fa-IR").format(totalCount);
+    count.textContent =
+      new Intl.NumberFormat("fa-IR").format(totalCount);
   }
 
   if (!items || !totalEl) return;
 
-  items.innerHTML = cart.length
-    ? cart.map(item => {
-        const product = products.find(p => String(p.id) === String(item.id));
-        if (!product) return "";
+  const visibleItems = cart
+    .map(item => ({
+      item,
+      product: getProduct(item.id)
+    }))
+    .filter(x => x.product);
 
-        return `
-          <div class="cart-line">
-            <div class="cart-thumb">✧</div>
+  items.innerHTML = visibleItems.length
+    ? visibleItems.map(({ item, product }) => `
+        <div class="cart-line">
 
-            <div>
-              <h4>${escapeHtml(product.name)}</h4>
-              <small>${money(product.price)}</small>
+          <div class="cart-thumb">✧</div>
 
-              <div class="qty">
-                <button data-qty="${escapeHtml(product.id)}" data-delta="-1">−</button>
-                <span>${item.qty}</span>
-                <button data-qty="${escapeHtml(product.id)}" data-delta="1">+</button>
-              </div>
+          <div>
+            <h4>${escapeHtml(product.name)}</h4>
+
+            <small>${money(getPrice(product))}</small>
+
+            <div class="qty">
+              <button
+                data-qty="${escapeHtml(product.id)}"
+                data-delta="-1">−</button>
+
+              <span>${item.qty}</span>
+
+              <button
+                data-qty="${escapeHtml(product.id)}"
+                data-delta="1">+</button>
             </div>
-
-            <button class="remove-line" data-remove="${escapeHtml(product.id)}">×</button>
           </div>
-        `;
-      }).join("")
+
+          <button
+            class="remove-line"
+            data-remove="${escapeHtml(product.id)}">
+            ×
+          </button>
+
+        </div>
+      `).join("")
     : `
-      <p style="font-size:12px;color:#858d7d;text-align:center;padding:45px 0">
+      <p style="
+        font-size:12px;
+        color:#858d7d;
+        text-align:center;
+        padding:45px 0">
         سبد خرید شما خالی است.
       </p>
     `;
 
-  const total = cart.reduce((sum, item) => {
-    const product = products.find(p => String(p.id) === String(item.id));
-    return sum + (product?.price || 0) * item.qty;
-  }, 0);
+  const total = visibleItems.reduce(
+    (sum, { item, product }) =>
+      sum + (getPrice(product) ?? 0) * item.qty,
+    0
+  );
 
   totalEl.textContent = money(total);
 
   items.querySelectorAll("[data-qty]").forEach(button => {
     button.onclick = () => {
-      const item = cart.find(x => String(x.id) === String(button.dataset.qty));
+      const item = cart.find(
+        x => String(x.id) === String(button.dataset.qty)
+      );
+
       if (!item) return;
 
       item.qty += Number(button.dataset.delta);
 
       if (item.qty < 1) {
-        cart = cart.filter(x => String(x.id) !== String(button.dataset.qty));
+        cart = cart.filter(
+          x => String(x.id) !== String(button.dataset.qty)
+        );
       }
 
       save();
@@ -269,7 +365,10 @@ function renderCart() {
 
   items.querySelectorAll("[data-remove]").forEach(button => {
     button.onclick = () => {
-      cart = cart.filter(x => String(x.id) !== String(button.dataset.remove));
+      cart = cart.filter(
+        x => String(x.id) !== String(button.dataset.remove)
+      );
+
       save();
       renderCart();
     };
@@ -289,9 +388,17 @@ function closeCart() {
   $("drawerBackdrop")?.classList.remove("show");
 }
 
-if ($("cartOpen")) $("cartOpen").onclick = openCart;
-if ($("cartClose")) $("cartClose").onclick = closeCart;
-if ($("drawerBackdrop")) $("drawerBackdrop").onclick = closeCart;
+if ($("cartOpen")) {
+  $("cartOpen").onclick = openCart;
+}
+
+if ($("cartClose")) {
+  $("cartClose").onclick = closeCart;
+}
+
+if ($("drawerBackdrop")) {
+  $("drawerBackdrop").onclick = closeCart;
+}
 
 
 /* ---------- CATEGORY FILTERS ---------- */
@@ -299,6 +406,7 @@ if ($("drawerBackdrop")) $("drawerBackdrop").onclick = closeCart;
 if ($("categoryFilters")) {
   $("categoryFilters").addEventListener("click", event => {
     const button = event.target.closest("[data-category]");
+
     if (!button) return;
 
     activeCategory = button.dataset.category;
@@ -320,25 +428,30 @@ const checkoutClose = $("checkoutClose");
 
 if (checkoutButton && checkoutModal) {
   checkoutButton.onclick = () => {
+
     if (!cart.length) {
       toast("سبد خرید خالی است");
       return;
     }
 
     const unavailable = cart.some(item => {
-      const product = products.find(p => String(p.id) === String(item.id));
-      return !product || product.price == null;
+      const product = getProduct(item.id);
+
+      return (
+        !product ||
+        getPrice(product) === null
+      );
     });
 
     if (unavailable) {
-      toast("برای محصولات دارای قیمت استعلامی، ابتدا قیمت را بپرسید");
+      toast("قیمت یکی از محصولات در دسترس نیست");
       return;
     }
 
-    // ابتدا پنجره سبد خرید بسته می‌شود
+    // بستن کامل پنجره سبد خرید
     closeCart();
 
-    // سپس فرم سفارش به‌تنهایی باز می‌شود
+    // باز کردن پنجره مستقل سفارش
     checkoutModal.classList.add("show");
   };
 }
@@ -363,6 +476,7 @@ if (checkoutModal) {
 if ($("checkoutForm")) {
   $("checkoutForm").onsubmit = event => {
     event.preventDefault();
+
     toast("اتصال ثبت سفارش به دیتابیس در مرحله بعد انجام می‌شود");
   };
 }
@@ -387,7 +501,13 @@ if ($("adminOpen")) {
       return;
     }
 
-    const { data } = await sb.auth.getSession();
+    const { data, error } = await sb.auth.getSession();
+
+    if (error) {
+      console.error(error);
+      toast("بررسی ورود مدیر ناموفق بود");
+      return;
+    }
 
     if (data.session) {
       showAdmin();
@@ -401,20 +521,24 @@ if ($("adminClose")) {
 
 if ($("adminBackdrop")) {
   $("adminBackdrop").addEventListener("click", event => {
-    if (event.target === $("adminBackdrop")) closeAdmin();
+    if (event.target === $("adminBackdrop")) {
+      closeAdmin();
+    }
   });
 }
 
 function showAdmin() {
   $("adminLogin")?.classList.add("hidden");
   $("adminContent")?.classList.remove("hidden");
+
   renderAdmin();
 }
 
 if ($("adminLoginBtn")) {
   $("adminLoginBtn").onclick = async () => {
+
     if (!sb) {
-      toast("اتصال Supabase هنوز تنظیم نشده است");
+      toast("اتصال Supabase برقرار نیست");
       return;
     }
 
@@ -438,29 +562,42 @@ if ($("adminLoginBtn")) {
 
 function renderAdmin() {
   const container = $("adminProducts");
+
   if (!container) return;
 
   container.innerHTML = products.map(p => `
     <div class="admin-product">
+
       <div>
         <b>${escapeHtml(p.name)}</b>
         <br>
-        <span>${money(p.price)} · ${escapeHtml(p.category)}</span>
+        <span>
+          ${money(getPrice(p))} · ${escapeHtml(p.category)}
+        </span>
       </div>
 
       <div>
-        <button data-edit="${escapeHtml(p.id)}">ویرایش</button>
-        <button data-del="${escapeHtml(p.id)}">حذف</button>
+        <button data-edit="${escapeHtml(p.id)}">
+          ویرایش
+        </button>
+
+        <button data-del="${escapeHtml(p.id)}">
+          حذف
+        </button>
       </div>
+
     </div>
   `).join("");
 
   container.querySelectorAll("[data-edit]").forEach(button => {
-    button.onclick = () => editProduct(button.dataset.edit);
+    button.onclick = () => {
+      editProduct(button.dataset.edit);
+    };
   });
 
   container.querySelectorAll("[data-del]").forEach(button => {
     button.onclick = async () => {
+
       if (!confirm("این محصول حذف شود؟")) return;
       if (!sb) return;
 
@@ -477,6 +614,7 @@ function renderAdmin() {
 
       await loadProducts();
       renderAdmin();
+
       toast("محصول حذف شد");
     };
   });
@@ -500,7 +638,8 @@ if ($("cancelProduct")) {
 }
 
 function editProduct(id) {
-  const product = products.find(p => String(p.id) === String(id));
+  const product = getProduct(id);
+
   if (!product) return;
 
   $("editId").value = product.id;
@@ -518,6 +657,7 @@ function editProduct(id) {
 
 if ($("productForm")) {
   $("productForm").onsubmit = async event => {
+
     event.preventDefault();
 
     if (!sb) {
@@ -528,15 +668,27 @@ if ($("productForm")) {
     const id = $("editId").value;
     let image = $("pImage").value.trim();
 
-    const file = $("pFile").files[0];
+    const file = $("pFile")?.files?.[0];
 
     if (file) {
-      const ext = (file.name.split(".").pop() || "jpg").toLowerCase();
-      const path = Date.now() + "-" + Math.random().toString(36).slice(2, 8) + "." + ext;
 
-      const upload = await sb.storage
+      const ext = (
+        file.name.split(".").pop() || "jpg"
+      ).toLowerCase();
+
+      const path =
+        Date.now() +
+        "-" +
+        Math.random().toString(36).slice(2, 8) +
+        "." +
+        ext;
+
+      const upload = await sb
+        .storage
         .from("product-images")
-        .upload(path, file, { contentType: file.type });
+        .upload(path, file, {
+          contentType: file.type
+        });
 
       if (upload.error) {
         console.error(upload.error);
@@ -544,18 +696,30 @@ if ($("productForm")) {
         return;
       }
 
-      image = sb.storage
+      image = sb
+        .storage
         .from("product-images")
-        .getPublicUrl(path).data.publicUrl;
+        .getPublicUrl(path)
+        .data.publicUrl;
     }
+
+    const rawPrice = $("pPrice").value.trim();
 
     const row = {
       name: $("pName").value.trim(),
       category: $("pCategory").value,
-      price: $("pPrice").value === "" ? null : Number($("pPrice").value),
+      price: rawPrice === "" ? null : Number(rawPrice),
       image,
       description: $("pDescription").value.trim()
     };
+
+    if (
+      row.price !== null &&
+      (!Number.isFinite(row.price) || row.price < 0)
+    ) {
+      toast("قیمت واردشده معتبر نیست");
+      return;
+    }
 
     const result = id
       ? await sb.from("products").update(row).eq("id", id)
@@ -571,6 +735,7 @@ if ($("productForm")) {
     renderAdmin();
 
     $("productForm").classList.add("hidden");
+
     toast("محصول ذخیره شد");
   };
 }
@@ -580,14 +745,17 @@ if ($("productForm")) {
 
 if ($("exportData")) {
   $("exportData").onclick = () => {
+
     const blob = new Blob(
       [JSON.stringify(products, null, 2)],
       { type: "application/json" }
     );
 
     const link = document.createElement("a");
+
     link.href = URL.createObjectURL(blob);
     link.download = "herbalia-products.json";
+
     link.click();
 
     URL.revokeObjectURL(link.href);
@@ -617,5 +785,6 @@ renderCart();
 loadProducts();
 
 console.log("HERBALIA STORE INITIALIZED");
+
 
 
