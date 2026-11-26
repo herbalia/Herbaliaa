@@ -30,7 +30,19 @@ function openCart(){ $("cartDrawer").classList.add("open");$("drawerBackdrop").c
 function closeCart(){ $("cartDrawer").classList.remove("open");$("drawerBackdrop").classList.remove("show");}
 $("cartOpen").onclick=openCart;$("cartClose").onclick=closeCart;$("drawerBackdrop").onclick=closeCart;
 $("categoryFilters").addEventListener("click",e=>{let b=e.target.closest("[data-category]");if(!b)return;activeCategory=b.dataset.category;document.querySelectorAll(".filter").forEach(x=>x.classList.toggle("active",x===b));renderProducts();});
-$("checkoutBtn").onclick=()=>{console.log("CHECKOUT CLICKED");
+$("checkoutBtn").onclick=()=>{const checkoutButton = document.getElementById("checkoutBtn");
+const checkoutModal = document.getElementById("checkoutBackdrop");
+
+checkoutButton.addEventListener("click", function () {
+  alert("دکمه ثبت سفارش فعال است!");
+
+  if (cart.length === 0) {
+    toast("سبد خرید خالی است");
+    return;
+  }
+
+  checkoutModal.classList.add("show");
+});
   if(!cart.length){
     toast("سبد خرید خالی است");
     return;
