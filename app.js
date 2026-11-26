@@ -88,7 +88,7 @@ $("productForm").onsubmit=async e=>{
  }
  const row={name:$("pName").value.trim(),category:$("pCategory").value,price:$("pPrice").value===""?null:Number($("pPrice").value),image,description:$("pDescription").value.trim()};
  const {error}=await (id?sb.from("products").update(row).eq("id",id):sb.from("products").insert(row));
- if(error){toast("ذخیره نشد؛ دوباره وارد پنل شوید");return;}
+ if(error){console.error("SUPABASE SAVE ERROR:",error);toast(error.message);return;}
  await loadProducts();renderAdmin();$("productForm").classList.add("hidden");toast("محصول ذخیره شد");
 };
 loadProducts();
