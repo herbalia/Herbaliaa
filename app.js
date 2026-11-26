@@ -51,7 +51,11 @@ function save(){localStorage.setItem("herbalia_cart",JSON.stringify(cart));}
 async function loadProducts(){
  if(!sb)return;
  const {data,error}=await sb.from("products").select("*").order("created_at");
- if(error){toast("خطا در دریافت محصولات");return;}
+ if(error){
+  console.error("SUPABASE LOAD ERROR:",error);
+  toast(error.message);
+  return;
+}
  products=data;renderProducts();renderCart();
 }
 function showAdmin(){$("adminLogin").classList.add("hidden");$("adminContent").classList.remove("hidden");renderAdmin();}
