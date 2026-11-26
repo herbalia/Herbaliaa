@@ -30,7 +30,24 @@ function openCart(){ $("cartDrawer").classList.add("open");$("drawerBackdrop").c
 function closeCart(){ $("cartDrawer").classList.remove("open");$("drawerBackdrop").classList.remove("show");}
 $("cartOpen").onclick=openCart;$("cartClose").onclick=closeCart;$("drawerBackdrop").onclick=closeCart;
 $("categoryFilters").addEventListener("click",e=>{let b=e.target.closest("[data-category]");if(!b)return;activeCategory=b.dataset.category;document.querySelectorAll(".filter").forEach(x=>x.classList.toggle("active",x===b));renderProducts();});
-$("checkoutBtn").onclick=()=>{if(!cart.length){toast("سبد خرید خالی است");return;}let lines=cart.map(x=>{let p=products.find(y=>y.id===x.id);return `${p.name} × ${x.qty} — ${money(p.price)}`}).join("\n");let total=cart.reduce((s,x)=>s+(products.find(y=>y.id===x.id)?.price||0)*x.qty,0);let msg=`سلام هربالیا، برای ثبت سفارش راهنمایی می‌خواهم:\n${lines}\nجمع اقلام دارای قیمت: ${money(total)}\nلطفاً هزینه ارسال و نحوه پرداخت را اعلام کنید.`;window.open("https://ble.ir/herbalia_organic","_blank");navigator.clipboard?.writeText(msg).then(()=>toast("جزئیات سفارش کپی شد؛ آن را در گفت‌وگوی هربالیا ارسال کنید")).catch(()=>toast("لطفاً جزئیات سبد را به هربالیا اعلام کنید"));};
+$("checkoutBtn").onclick=()=>{
+  if(!cart.length){
+    toast("سبد خرید خالی است");
+    return;
+  }
+
+  $("checkoutBackdrop").classList.add("show");
+};
+
+$("checkoutClose").onclick=()=>{
+  $("checkoutBackdrop").classList.remove("show");
+};
+
+$("checkoutBackdrop").onclick=e=>{
+  if(e.target === $("checkoutBackdrop")){
+    $("checkoutBackdrop").classList.remove("show");
+  }
+};
 $("adminOpen").onclick=()=>{$("adminBackdrop").classList.add("show");};$("adminClose").onclick=()=>{$("adminBackdrop").classList.remove("show");};$("adminBackdrop").addEventListener("click",e=>{if(e.target===$("adminBackdrop"))$("adminBackdrop").classList.remove("show")});
 
 function renderAdmin(){$("adminProducts").innerHTML=products.map(p=>`<div class="admin-product"><div><b>${escapeHtml(p.name)}</b><br><span>${money(p.price)} · ${escapeHtml(p.category)}</span></div><div><button data-edit="${p.id}">ویرایش</button><button data-del="${p.id}">حذف</button></div></div>`).join("");document.querySelectorAll("[data-edit]").forEach(b=>b.onclick=()=>editProduct(b.dataset.edit));document.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{if(confirm("این محصول حذف شود؟")){products=products.filter(p=>p.id!==b.dataset.del);save();renderProducts();renderAdmin();}});}
